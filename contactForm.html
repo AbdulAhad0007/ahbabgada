@@ -128,13 +128,13 @@
       <form id="contactForm">
         <label for="name">Full Name:</label>
         <input type="text" name="name" required>
-
+      
         <label for="email">Email Address:</label>
         <input type="email" name="email" required>
-
+      
         <label for="phone">Phone Number:</label>
         <input type="tel" name="phone" required>
-
+      
         <label for="service">Select Service:</label>
         <select name="service" required>
           <option value="">--Choose Service--</option>
@@ -148,25 +148,26 @@
           <option>College Projects</option>
           <option>Industry Projects</option>
         </select>
-
+      
         <label for="domain">Website Domain (if any):</label>
         <input type="url" name="domain" placeholder="https://example.com">
-
-        <label for="description">Project Description:</label>
+      
+        <label for="description">Project Description:</label> <!-- Match EmailJS template -->
         <textarea name="description" rows="4" required></textarea>
-
+      
         <label for="contactMethod">Preferred Contact Method:</label>
         <select name="contactMethod" required>
           <option>Email</option>
           <option>Phone</option>
           <option>WhatsApp</option>
         </select>
-
+      
         <div class="form-buttons">
           <button type="submit">Submit</button>
           <button type="button" id="cancelBtn2">Cancel</button>
         </div>
       </form>
+      
     </div>
   </div>
 
@@ -190,5 +191,25 @@
         });
     });
   </script>
+
+<script type="module">
+    import emailjs from 'https://cdn.emailjs.com/dist/email.min.js';
+  
+    emailjs.init("drH9w5shVR5S0Ko1P"); // Your public key
+  
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+  
+      emailjs.sendForm("service_en29j5o", "template_4h0ax07", this)
+        .then(() => {
+          alert("Message sent successfully!");
+          this.reset();
+        }, (error) => {
+          console.error("Failed to send message:", error);
+          alert("Failed to send message. Please try again later.");
+        });
+    });
+  </script>
+  
 </body>
 </html>
