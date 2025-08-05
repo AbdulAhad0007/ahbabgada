@@ -24,7 +24,7 @@
                     <li><a href="#services">Services</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="contactForm.html" id="contactLink">Contact</a></li>
+                    <li><a href="contactForm.html" id="contactLink" onclick="openContactPopup()">Contact</a></li>
                 </ul>
                 <div class="mobile-menu">
                     <i class="fas fa-bars"></i>
@@ -699,5 +699,19 @@ document.getElementById('contactLink').addEventListener('click', function(e) {
     showContactPopup();
 });
     </script>
+
+
+<script>
+function openContactPopup() {
+  fetch('contactForm.html')
+    .then(res => res.text())
+    .then(html => {
+      const popupContainer = document.createElement("div");
+      popupContainer.innerHTML = html;
+      document.body.appendChild(popupContainer);
+    });
+}
+</script>
+
 </body>
 </html>

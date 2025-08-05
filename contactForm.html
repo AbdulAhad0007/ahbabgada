@@ -1,233 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Form - Intent Hedge Fund</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Form</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("drH9w5shVR5S0Ko1P"); // Your EmailJS public key
+    })();
+  </script>
   <style>
     * {
       box-sizing: border-box;
     }
-  
-    .form-wrapper {
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 10px;
+    body {
+      margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      position: relative;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
     }
-  
-    .form-wrapper h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-  
-    .form-wrapper label {
-      display: block;
-      margin-top: 15px;
-      font-weight: 600;
-      font-size: 14px;
-    }
-  
-    .form-wrapper input,
-    .form-wrapper select,
-    .form-wrapper textarea {
+    .form-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
       width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-  
-    .form-wrapper textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-  
-    .form-buttons {
+      background: rgba(0, 0, 0, 0.6);
       display: flex;
-      justify-content: space-between;
-      margin-top: 25px;
-      flex-wrap: wrap;
-      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease-in-out;
     }
-  
-    .form-buttons button {
-      flex: 1;
-      padding: 12px 16px;
-      font-size: 15px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s ease;
+
+    .form-wrapper {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      position: relative;
+      animation: slideIn 0.4s ease;
     }
-  
-    .form-buttons button[type="submit"] {
-      background-color: #007BFF;
-      color: #fff;
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
-  
-    .form-buttons button#cancelBtn {
-      background-color: #ccc;
-      color: #333;
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
-  
-    .form-buttons button:hover {
-      opacity: 0.9;
-    }
-  
+
     .close-icon {
       position: absolute;
       top: 10px;
       right: 15px;
-      font-size: 26px;
-      color: #555;
+      font-size: 24px;
       cursor: pointer;
-    }
-  
-    #success-message, #error-message {
-      display: none;
-      padding: 15px;
-      margin-top: 20px;
-      border-radius: 6px;
-      text-align: center;
-    }
-    
-    #success-message {
-      background-color: #d4edda;
-      color: #155724;
-    }
-    
-    #error-message {
-      background-color: #f8d7da;
-      color: #721c24;
+      color: #333;
     }
 
-    @media (max-width: 500px) {
-      .form-wrapper {
-        padding: 15px;
-      }
-  
-      .form-buttons {
-        flex-direction: column;
-      }
-  
-      .form-buttons button {
-        width: 100%;
-      }
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .form-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .form-buttons button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .form-buttons button[type="submit"] {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    .form-buttons #cancelBtn {
+      background-color: #ccc;
+      color: #333;
     }
   </style>
 </head>
 <body>
-<div class="form-wrapper">
-  <span class="close-icon" id="cancelBtn">&times;</span>
-  <h2>Get in Touch</h2>
+  <div class="form-overlay" id="popupForm">
+    <div class="form-wrapper">
+      <span class="close-icon" id="cancelBtn">&times;</span>
+      <h2>Get in Touch</h2>
+      <form id="contactForm">
+        <label for="name">Full Name:</label>
+        <input type="text" name="name" required>
 
-  <form id="contactForm">
-    <label for="name">Full Name:</label>
-    <input type="text" id="name" name="name" required />
+        <label for="email">Email Address:</label>
+        <input type="email" name="email" required>
 
-    <label for="email">Email Address:</label>
-    <input type="email" id="email" name="email" required />
+        <label for="phone">Phone Number:</label>
+        <input type="tel" name="phone" required>
 
-    <label for="phone">Phone Number:</label>
-    <input type="tel" id="phone" name="phone" required />
+        <label for="service">Select Service:</label>
+        <select name="service" required>
+          <option value="">--Choose Service--</option>
+          <option>Website Development</option>
+          <option>SEO Optimization</option>
+          <option>Social Media</option>
+          <option>Video Creation</option>
+          <option>Data Analysis</option>
+          <option>Content Writing</option>
+          <option>Project Making</option>
+          <option>College Projects</option>
+          <option>Industry Projects</option>
+        </select>
 
-    <label for="service">Select Service:</label>
-    <select id="service" name="service" required>
-      <option value="">--Choose Service--</option>
-      <option>Website Development</option>
-      <option>SEO Optimization</option>
-      <option>Social Media</option>
-      <option>Video Creation</option>
-      <option>Data Analysis</option>
-      <option>Content Writing</option>
-      <option>Project Making</option>
-      <option>College Projects</option>
-      <option>Industry Projects</option>
-    </select>
+        <label for="domain">Website Domain (if any):</label>
+        <input type="url" name="domain" placeholder="https://example.com">
 
-    <label for="domain">Website Domain (if any):</label>
-    <input type="url" id="domain" name="domain" placeholder="https://example.com" />
+        <label for="description">Project Description:</label>
+        <textarea name="description" rows="4" required></textarea>
 
-    <label for="description">Project Description:</label>
-    <textarea id="description" name="description" rows="4" required></textarea>
+        <label for="contactMethod">Preferred Contact Method:</label>
+        <select name="contactMethod" required>
+          <option>Email</option>
+          <option>Phone</option>
+          <option>WhatsApp</option>
+        </select>
 
-    <label for="contactMethod">Preferred Contact Method:</label>
-    <select id="contactMethod" name="contactMethod" required>
-      <option>Email</option>
-      <option>Phone</option>
-      <option>WhatsApp</option>
-    </select>
-
-    <div class="form-buttons">
-      <button type="submit">Submit</button>
-      <button type="button" id="cancelBtn">Cancel</button>
+        <div class="form-buttons">
+          <button type="submit">Submit</button>
+          <button type="button" id="cancelBtn2">Cancel</button>
+        </div>
+      </form>
     </div>
-  </form>
-  
-  <div id="success-message">
-    Thank you for your message! We'll get back to you soon.
   </div>
-  
-  <div id="error-message">
-    There was an error sending your message. Please try again later.
-  </div>
-</div>
 
-<!-- Add EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
-  // Initialize EmailJS with your public key
-  (function() {
-    emailjs.init('drH9w5shVR5S0Ko1P'); // Replace with your actual public key
-  })();
-  
-  // Handle form submission
-  document.getElementById('contactForm').addEventListener('submit', function (event) {
-  event.preventDefault();
+  <script>
+    // Close popup
+    document.getElementById("cancelBtn").onclick = closeForm;
+    document.getElementById("cancelBtn2").onclick = closeForm;
+    function closeForm() {
+      document.getElementById("popupForm").style.display = "none";
+    }
 
-  const formData = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    phone: document.getElementById('phone').value,
-    service: document.getElementById('service').value,
-    domain: document.getElementById('domain').value,
-    description: document.getElementById('description').value,
-    contactMethod: document.getElementById('contactMethod').value,
-  };
-
-  console.log("Sending form data:", formData);
-
-  emailjs.send("service_en29j5o", "template_4h0ax07", formData)
-    .then(response => {
-      console.log("✅ Email sent successfully:", response);
-      alert("Message sent successfully!");
-      document.getElementById("contactForm").reset();
-    })
-    .catch(error => {
-      console.error("❌ Email send failed:", error);
-      alert("Message failed to send. Check console for errors.");
+    // EmailJS submit
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      emailjs.sendForm("service_en29j5o", "template_4h0ax07", this)
+        .then(() => {
+          alert("Form submitted successfully!");
+          closeForm();
+        }, (error) => {
+          alert("Failed to send. Error: " + JSON.stringify(error));
+        });
     });
-});
-
-  
-  // Close form functionality
-  document.getElementById('cancelBtn').addEventListener('click', function() {
-    // Add your close form logic here
-    console.log('Form closed');
-  });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
-  emailjs.init('drH9w5shVR5S0Ko1P'); // your actual public key
-</script>
-
+  </script>
 </body>
 </html>
