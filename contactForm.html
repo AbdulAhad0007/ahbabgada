@@ -190,10 +190,9 @@
   })();
   
   // Handle form submission
-  document.getElementById('contactForm').addEventListener('submit', function(event) {
+  document.getElementById('contactForm').addEventListener('submit', function (event) {
   event.preventDefault();
-  
-  // Debug: Log form data
+
   const formData = {
     name: document.getElementById('name').value,
     email: document.getElementById('email').value,
@@ -201,19 +200,23 @@
     service: document.getElementById('service').value,
     domain: document.getElementById('domain').value,
     description: document.getElementById('description').value,
-    contactMethod: document.getElementById('contactMethod').value
+    contactMethod: document.getElementById('contactMethod').value,
   };
-  console.log("Submitting:", formData);
-  emailjs.send("service_en29j5o","template_4h0ax07", formData)
-    .then(function(response) {
-      console.log('SUCCESS!', response);
-      alert('Message sent successfully!');
-      document.getElementById('contactForm').reset();
-    }, function(error) {
-      console.log('FAILED...', error);
-      alert('Message failed to send: ' + JSON.stringify(error));
+
+  console.log("Sending form data:", formData);
+
+  emailjs.send("service_en29j5o", "template_4h0ax07", formData)
+    .then(response => {
+      console.log("✅ Email sent successfully:", response);
+      alert("Message sent successfully!");
+      document.getElementById("contactForm").reset();
+    })
+    .catch(error => {
+      console.error("❌ Email send failed:", error);
+      alert("Message failed to send. Check console for errors.");
     });
 });
+
   
   // Close form functionality
   document.getElementById('cancelBtn').addEventListener('click', function() {
