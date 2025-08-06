@@ -5,113 +5,153 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact Form</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow: hidden;
-    }
-    .form-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      animation: fadeIn 0.3s ease-in-out;
-    }
+   /* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    .form-wrapper {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-      position: relative;
-      animation: slideIn 0.4s ease;
-    }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+}
 
-    @keyframes slideIn {
-      from {
-        transform: translateY(-50px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
+/* Form Overlay */
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
+/* Form Wrapper */
+.form-wrapper {
+  background-color: white;
+  width: 90%;
+  max-width: 500px;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: slideDown 0.3s ease-out;
+}
 
-    .close-icon {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
-      cursor: pointer;
-      color: #333;
-    }
+/* Close Button */
+.close-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
 
-    h2 {
-      text-align: center;
-    }
+.close-icon:hover {
+  color: #333;
+}
 
-    label {
-      display: block;
-      margin-top: 15px;
-    }
+/* Form Heading */
+.form-wrapper h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.8rem;
+}
 
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
+/* Form Fields */
+.field {
+  margin-bottom: 15px;
+}
 
-    textarea {
-      resize: vertical;
-    }
+.field label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-size: 0.9rem;
+}
 
-    .form-buttons {
-      margin-top: 20px;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
 
-    .form-buttons button {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 15px;
-    }
+.field input:focus, 
+.field select:focus,
+.field textarea:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
 
-    .form-buttons button[type="submit"] {
-      background-color: #007BFF;
-      color: white;
-    }
+/* Submit Button */
+#button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
 
-    .form-buttons #cancelBtn {
-      background-color: #ccc;
-      color: #333;
-    }
+#button:hover {
+  background-color: #357bd8;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { 
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .form-wrapper {
+    padding: 20px 15px;
+  }
+  
+  .form-wrapper h2 {
+    font-size: 1.5rem;
+  }
+  
+  .field input,
+  .field select,
+  .field textarea {
+    padding: 8px;
+  }
+  
+  #button {
+    padding: 10px;
+  }
+}
   </style>
 </head>
 <body>
@@ -119,84 +159,87 @@
     <div class="form-wrapper">
       <span class="close-icon" id="cancelBtn">&times;</span>
       <h2>Get in Touch</h2>
-      <form id="contactForm">
-        <label for="name">Full Name:</label>
-        <input type="text" id="name" name="name" required>
-      
-        <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required>
-      
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" required>
-      
-        <label for="service">Select Service:</label>
-        <select id="service" name="service" required>
-          <option value="">--Choose Service--</option>
-          <option>Website Development</option>
-          <option>SEO Optimization</option>
-          <option>Social Media</option>
-          <option>Video Creation</option>
-          <option>Data Analysis</option>
-          <option>Content Writing</option>
-          <option>Project Making</option>
-          <option>College Projects</option>
-          <option>Industry Projects</option>
-        </select>
-      
-        <label for="domain">Website Domain (if any):</label>
-        <input type="url" id="domain" name="domain" placeholder="https://example.com">
-      
-        <label for="description">Project Description:</label>
-        <textarea id="description" name="description" rows="4" required></textarea>
-      
-        <label for="contactMethod">Preferred Contact Method:</label>
-        <select id="contactMethod" name="contactMethod" required>
-          <option>Email</option>
-          <option>Phone</option>
-          <option>WhatsApp</option>
-        </select>
-      
-        <div class="form-buttons">
-          <button type="submit">Submit</button>
-          <button type="button" id="cancelBtn2">Cancel</button>
+      <form id="form">
+        <div class="field">
+          <label for="name">name</label>
+          <input type="text" name="name" id="name" required>
         </div>
+        <div class="field">
+          <label for="email">email</label>
+          <input type="text" name="email" id="email" required>
+        </div>
+        <div class="field">
+          <label for="phone">phone</label>
+          <input type="text" name="phone" id="phone" required>
+        </div>
+        <div class="field">
+          <label for="service">Service</label>
+          <select name="service" id="service" required>
+            <option value="" disabled selected>Select a service</option>
+            <option value="Website Development">Website Development</option>
+            <option value="SEO Optimization">SEO Optimization</option>
+            <option value="Social Media">Social Media</option>
+            <option value="Video Creation">Video Creation</option>
+            <option value="Data Analysis">Data Analysis</option>
+            <option value="Content Writing">Content Writing</option>
+            <option value="Project Making">Project Making</option>
+            <option value="College Projects">College Projects</option>
+            <option value="Industry Projects">Industry Projects</option>
+          </select>
+        </div>
+        
+        <div class="field">
+          <label for="domain">domain</label>
+          <input type="text" name="domain" id="domain" placeholder="https://www.example.com/">
+        </div>
+        <div class="field">
+          <label for="service">Preferred Contact</label>
+          <select name="preferredContact" id="service" required>
+            <option value="" disabled selected>Select Type</option>
+            <option value="Email">Email</option>
+            <option value="Phone">Phone</option>
+            <option value="Whatsapp">Whatsapp</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="description">description</label>
+          <input type="text" name="description" id="description" placeholder="write here" required>
+        </div>
+      
+        <input type="submit" id="button" value="Send Email" >
       </form>
+      
+      <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+      
+      <script type="text/javascript">
+        emailjs.init('drH9w5shVR5S0Ko1P')
+      </script>
     </div>
   </div>
 
   <!-- Load EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  
   <script>
-    // Initialize EmailJS with your public key
-    (function() {
-      emailjs.init("drH9w5shVR5S0Ko1P");
-    })();
+    const btn = document.getElementById('button');
 
-    // Close popup
-    document.getElementById("cancelBtn").onclick = closeForm;
-    document.getElementById("cancelBtn2").onclick = closeForm;
-    function closeForm() {
-      document.getElementById("popupForm").style.display = "none";
-    }
+document.getElementById('form')
+ .addEventListener('submit', function(event) {
+   event.preventDefault();
 
-    // Form submission handler
-    document.getElementById("contactForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      
-      console.log("Form submitted"); // Debug log
-      
-      emailjs.sendForm("service_en29j5o", "template_4h0ax07", this)
-        .then(function(response) {
-          console.log("SUCCESS!", response.status, response.text);
-          alert("Message sent successfully!");
-          closeForm();
-          this.reset();
-        }, function(error) {
-          console.log("FAILED...", error);
-          alert("Failed to send message. Error: " + JSON.stringify(error));
-        });
+   btn.value = 'Sending...';
+
+   const serviceID = 'default_service';
+   const templateID = 'template_4h0ax07';
+
+   emailjs.sendForm(serviceID, templateID, this)
+    .then(() => {
+      btn.value = 'Send Email';
+      alert('Sent!');
+    }, (err) => {
+      btn.value = 'Send Email';
+      alert(JSON.stringify(err));
     });
+});
   </script>
 </body>
 </html>
