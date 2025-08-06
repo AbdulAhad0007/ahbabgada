@@ -159,7 +159,7 @@ body {
     <div class="form-wrapper">
       <span class="close-icon" id="cancelBtn">&times;</span>
       <h2>Get in Touch</h2>
-      <form id="form">
+      <form id="form" name="contact-form">
         <div class="field">
           <label for="name">name</label>
           <input type="text" name="name" id="name" required>
@@ -192,15 +192,17 @@ body {
           <label for="domain">domain</label>
           <input type="text" name="domain" id="domain" placeholder="https://www.example.com/">
         </div>
-        <div class="field">
-          <label for="service">Preferred Contact</label>
-          <select name="preferredContact" id="service" required>
-            <option value="" disabled selected>Select Type</option>
-            <option value="Email">Email</option>
-            <option value="Phone">Phone</option>
-            <option value="Whatsapp">Whatsapp</option>
-          </select>
-        </div>
+<!-- Preferred Contact -->
+<div class="field">
+  <label for="preferredContact">Preferred Contact</label>
+  <select name="preferredContact" id="preferredContact" required>
+    <option value="" disabled selected>Select Type</option>
+    <option value="Email">Email</option>
+    <option value="Phone">Phone</option>
+    <option value="Whatsapp">Whatsapp</option>
+  </select>
+</div>
+
         <div class="field">
           <label for="description">description</label>
           <input type="text" name="description" id="description" placeholder="write here" required>
@@ -220,26 +222,26 @@ body {
 
   <!-- Load EmailJS SDK -->
   <script>
-    const btn = document.getElementById('button');
+  emailjs.init('drH9w5shVR5S0Ko1P');
 
-document.getElementById('form')
- .addEventListener('submit', function(event) {
-   event.preventDefault();
+  const btn = document.getElementById('button');
 
-   btn.value = 'Sending...';
+  document.getElementById('form')
+    .addEventListener('submit', function(event) {
+      event.preventDefault();
 
-   const serviceID = 'default_service';
-   const templateID = 'template_4h0ax07';
+      btn.value = 'Sending...';
 
-   emailjs.sendForm(serviceID, templateID, this)
-    .then(() => {
-      btn.value = 'Send Email';
-      alert('Sent!');
-    }, (err) => {
-      btn.value = 'Send Email';
-      alert(JSON.stringify(err));
+      emailjs.sendForm('service_en29j5o', 'template_4h0ax07', this)
+        .then(() => {
+          btn.value = 'Send Email';
+          alert('Message sent successfully!');
+          this.reset(); // ✅ Optional: clear the form
+        }, (err) => {
+          btn.value = 'Send Email';
+          alert(`Failed to send:\n${JSON.stringify(err)}`);
+        });
     });
-});
   </script>
 </body>
 </html>
