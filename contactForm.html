@@ -242,6 +242,14 @@ body {
           alert(`Failed to send:\n${JSON.stringify(err)}`);
         });
     });
+
+  // Close form on clicking the "×" icon
+  const cancelBtn = document.getElementById('cancelBtn');
+  const popupForm = document.getElementById('popupForm');
+
+  cancelBtn.addEventListener('click', () => {
+    popupForm.style.display = 'none';
+  });
   </script>
 </body>
 </html>
